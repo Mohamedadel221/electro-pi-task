@@ -1,18 +1,18 @@
 
-## Setup To Run Task
+## Steps To Run Task
 
 Make sure to install dependencies:
 
 ```bash
-## Steup 1 install Node modules
+## Step 1 install Node modules
 npm install
 
-## Steup 2 Development Server
+## Step 2 Development Server
 npm run dev
 
 Start the development server on `http://localhost:3000`:
 
-## Steup 3 Mock API Json Server
+## Step 3 Mock API Json Server
 npm run mock-api
 
 Start Json Server on `http://localhost:3001`:
