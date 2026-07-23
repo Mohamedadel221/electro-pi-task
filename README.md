@@ -4,15 +4,15 @@
 Make sure to install dependencies:
 
 ```bash
-# npm
+## Steup 1 install Node modules
 npm install
 
-## Development Server
+## Steup 2 Development Server
 npm run dev
 
 Start the development server on `http://localhost:3000`:
 
-## mock-api Json Server
+## Steup 3 Mock API Json Server
 npm run mock-api
 
 Start Json Server on `http://localhost:3001`:
