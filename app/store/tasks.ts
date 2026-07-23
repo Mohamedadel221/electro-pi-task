@@ -1,5 +1,9 @@
 import { defineStore } from "pinia";
+
 import type { Task } from "~/types/tasks";
+
+const ENDPOINT = "http://localhost:3001/tasks";
+
 export const myTasks = defineStore("tasks", {
   state: () => ({
     tasks: [] as Task[],
@@ -10,25 +14,18 @@ export const myTasks = defineStore("tasks", {
     statusFilter: "All",
   }),
   getters: {
-    endpoint() {
-      const config = useRuntimeConfig();
-      return config.public.taskEndPoint;
+    filteredTasks(state) {
+      return state.tasks.filter((task) => {
+        const matchesSearch =
+          !state.filterTask ||
+          task.title.toLowerCase().includes(state.filterTask.toLowerCase());
+
+        const matchesStatus =
+          state.statusFilter === "All" || task.status === state.statusFilter;
+
+        return matchesSearch && matchesStatus;
+      });
     },
-  filteredTasks(state) {
-  return state.tasks.filter((task) => {
-    const matchesSearch =
-      !state.filterTask ||
-      task.title
-        .toLowerCase()
-        .includes(state.filterTask.toLowerCase());
-
-    const matchesStatus =
-      state.statusFilter === "All" ||
-      task.status === state.statusFilter;
-
-    return matchesSearch && matchesStatus;
-  });
-},
   },
   actions: {
     /*********** start GET TASK  ********************/
@@ -36,7 +33,7 @@ export const myTasks = defineStore("tasks", {
       this.loading = true;
       this.error = null;
       try {
-        this.tasks = await $fetch<Task[]>(this.endpoint);
+        this.tasks = await $fetch<Task[]>(ENDPOINT);
         return this.tasks;
       } catch (err) {
         this.error = "Failed to load tasks";
@@ -50,7 +47,7 @@ export const myTasks = defineStore("tasks", {
     /*********** Start Post TASK  ********************/
     async addTask(task: Omit<Task, "id">) {
       try {
-        const newTask = await $fetch<Task>(this.endpoint, {
+        const newTask = await $fetch<Task>(ENDPOINT, {
           method: "POST",
           body: task,
         });
@@ -72,7 +69,7 @@ export const myTasks = defineStore("tasks", {
       this.error = null;
       this.successMessage = "";
       try {
-        await $fetch(`${this.endpoint}/${id}`, {
+        await $fetch(`${ENDPOINT}/${id}`, {
           method: "DELETE",
         });
         this.tasks = this.tasks.filter((task) => task.id !== id);
@@ -90,7 +87,7 @@ export const myTasks = defineStore("tasks", {
 
     /*********** start edit Task ********************/
     async updateTask(id: number, task: Partial<Task>) {
-      const updatedTask = await $fetch<Task>(`${this.endpoint}/${id}`, {
+      const updatedTask = await $fetch<Task>(`${ENDPOINT}/${id}`, {
         method: "PUT",
         body: task,
       });
