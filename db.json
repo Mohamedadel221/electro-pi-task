@@ -2,9 +2,9 @@
   "tasks": [
     {
       "title": "Mohamed",
-      "description": "Home",
-      "status": "In Progress",
-      "dueDate": "2026-07-04",
+      "description": "Finish Electro Pi Task",
+      "status": "Done",
+      "dueDate": "2026-07-23",
       "id": 1
     }
   ]

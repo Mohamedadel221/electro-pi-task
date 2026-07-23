@@ -26,7 +26,7 @@
       <div class="bg-white rounded-lg p-6 w-full max-w-xl">
         <form @submit.prevent="addTaskForm">
           <div class="grid grid-cols-12 items-center gap-4">
-            <div class="title col-span-12 md:col-span-6">
+            <div class="title col-span-12">
               <input
                 type="text"
                 v-model="sentTask.title"
@@ -37,7 +37,7 @@
                 {{ v$.title.$errors[0].$message }}
               </span>
             </div>
-            <div class="status col-span-12 md:col-span-6">
+            <div class="status col-span-12">
               <select
                 v-model="sentTask.status"
                 class="capitalize w-full border border-gray-300 rounded-2xl px-4 py-3 text-[14px] outline-none appearance-none focus:border-[#34c759] transition-all duration-300 bg-[transparent]"
@@ -51,7 +51,7 @@
                 {{ v$.status.$errors[0].$message }}
               </span>
             </div>
-            <div class="date col-span-12 md:col-span-12">
+            <div class="date col-span-12">
               <input
                 type="date"
                 v-model="sentTask.dueDate"
@@ -61,15 +61,12 @@
                 {{ v$.dueDate.$errors[0].$message }}
               </span>
             </div>
-            <div class="description col-span-12 md:col-span-12">
+            <div class="description col-span-12">
               <textarea
                 v-model="sentTask.description"
-                placeholder="Description"
+                placeholder="Description (Optional)"
                 class="w-full border border-gray-300 rounded-2xl px-4 py-3 text-[14px] outline-none appearance-none focus:border-[#34c759] transition-all duration-300 bg-[transparent]"
               />
-              <span v-if="v$.title.$error" class="text-red-500 text-xs">
-                {{ v$.description.$errors[0].$message }}
-              </span>
             </div>
           </div>
           <div class="add-btn flex items-center justify-center mt-5">
@@ -104,7 +101,7 @@ const editingTask = useState("editingTask", () => null);
 
 const sentTask = reactive({
   title: "",
-  description: "",
+  description: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. ",
   status: "",
   dueDate: "",
 });
@@ -113,7 +110,6 @@ const vailidate = {
   title: { required },
   status: { required },
   dueDate: { required },
-  description: { required },
 };
 const v$ = useVuelidate(vailidate, sentTask);
 
